@@ -1,0 +1,633 @@
+*,
+*::before,
+*::after{
+    box-sizing: border-box;
+} /*padding: 0 15px; ниже увеличивает ширину контейнера, что для нас не приемлемо; эта конструкция делает все как надо, но нужно max-width: 1230px вместо 1200px*/
+
+@font-face {
+    font-family: "balqis"; /*задаем шрифт*/
+    src: url('../fonts/balqis.woff2') format('woff2'), /*1-м задается woff2 потому что он более оптимизирован для браузера*/
+         url('../fonts/balqis.woff') format('woff'); /*ели по какой-то причине браузер не смог подгрузить woff2 тогда он подгрузит woff*/
+    font-weight: 300; /*толщина*/
+    font-style: normal;
+    font-display: swap; /*повышает скорость загрузки сайта, используюя шрифты системы, пока подгружаются нужные шрифты сайта*/
+}
+
+@font-face {
+    font-family: "RobotoCondensed-Light"; 
+    src: url('../fonts/RobotoCondensed-Light.woff2') format('woff2'),  
+         url('../fonts/RobotoCondensed-Light.woff') format('woff'); 
+    font-weight: 300; 
+    font-style: normal;
+    font-display: swap; 
+}
+
+@font-face {
+    font-family: "RobotoCondensed-LightItalic"; 
+    src: url('../fonts/RobotoCondensed-LightItalic.woff2') format('woff2'),  
+         url('../fonts/RobotoCondensed-LightItalic.woff') format('woff'); 
+    font-weight: 300; 
+    font-style: italic;
+    font-display: swap; 
+}
+
+@font-face {
+    font-family: "RobotoCondensed-Regular"; 
+    src: url('../fonts/RobotoCondensed-Regular.woff2') format('woff2'),  
+         url('../fonts/RobotoCondensed-Regular.woff') format('woff'); 
+    font-weight: 400; 
+    font-style: normal;
+    font-display: swap; 
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    color: inherit; /*наследует цвет вышестоящего элемента (иначе синяя)*/
+    text-decoration: none; /*убирает подчеркивание у всех ссылок*/
+}
+
+body {
+    color: #000; /*цвет наследуют все элементы в body, кроме ссылок*/
+    font-family: "RobotoCondensed-Light"; 
+    font-size: 18px;
+    line-height: 21px;
+}
+
+.container {
+    max-width: 1230px; /*максимальная ширина контейнера (может быть меньше, но не больше)*/
+    margin: 0 auto; /*отталкивает контейнер от левого и правого края, выравнивая его по центру*/
+    padding: 0 15px; /*для мобильной версии отступы от краев 15px*/
+}
+
+.header {
+    background-image: url('../images/header-bg.jpg');
+    height: 100vh; /*делает картинку во весь экран*/
+    background-repeat: no-repeat; /*убирает повторы картинки на больших экранах*/
+    background-size: cover; /*растягивает картинку по всему экрану*/
+    background-position: bottom center; /*выставляем картинку +- по экрану как надо*/
+}
+
+.page-section {
+    margin: 200px auto; /*отступ сверху и снизу 200, по бокам отступ 0; между двумя page-section будет расстояние не 400, а также 200, потому что margin схлопывается*/
+    max-width: 1920px; /*чтобы слайдер не уезжал на больших экранах*/
+}
+
+.title {
+    font-family: "balqis";
+    font-size: 96px;
+    line-height: 128px;
+    color: #E2AB3F;
+    font-weight: 300;
+}
+
+.title span {
+    display: block; /*сделали блочным элементом, чтоб удобнее было оперировать*/
+    margin-bottom: 100px;
+    font-size: 24px;
+    line-height: 28px;
+    font-family: "RobotoCondensed-LightItalic";
+    color: #000;
+    margin-top: -30px;
+}
+
+.header__top {
+    display: flex;
+    justify-content: space-between; /*раскидывает меню и номер телефона по разным сторонам*/
+    padding-top: 72px; /*отступ от верха*/
+    font-size: 24px; /*размер шрифта*/
+    line-height: 28px; /*высота строки*/
+    font-family: "RobotoCondensed-Regular"; 
+}
+
+.menu__list-item {
+    display: inline-block; /*делают список меню в одну строку*/
+}
+
+.menu__list-item + .menu__list-item {
+    margin-left: 52px; /*делает отступ слева у 2-го и 3-го элемента, пропуская 1-й элемент; правило хорошего тона у верстальщиков*/
+}
+
+.menu__list-link:hover { /*hover значит свойство срабатывает при наведении курсора на элемент*/
+    text-decoration: underline; /*при наведении курсора элемент подчеркивается*/
+}
+
+.header__phone {
+    padding-left: 40px; /*зарезервировали под иконку место; это хорошо и тем, что при нажатии на иконку также сработает ссылка с номером телефона*/
+    position: relative; /*родительская метка (свойство для родителя, внутри которого позиционируется элемент), относительно нёё будет работать before для позиционирования иконки*/
+}
+
+.header__phone::before { /*иконка будет стоять беред элементом "header__phone"*/
+    content: ""; /*без этого before работать не будет*/
+    position: absolute; /*работает в паре с position: relative;*/
+    background-image: url('../images/phone-icon.svg'); /*но иконка не появится, пока не зададим ширину и длину*/
+    width: 30px;
+    height: 30px;
+    left: 0; /*правильно позиционируем иконку в зеленой области (см. код в браузере), которую зарезервировали с помощью padding-left: 40px; работает только когда прописан position: absolute;*/
+}
+
+.header__title {
+    padding-top: 152px;
+    text-align: center;
+    font-size: 250px;
+    line-height: 334px;
+    font-family: "balqis";
+    font-weight: 300; /*чтоб не так жирненько было*/
+}
+
+.header__title span {
+    display: block; /*сделали блочным элементом, чтоб удобнее было оперировать*/
+    text-align: right; /*поместили вправо*/
+    font-size: 56px;
+    line-height: 66px;
+    font-family: "RobotoCondensed-LightItalic";
+    margin-top: -66px;
+    margin-right: 85px;
+}
+
+.fairy-tail__slider {
+    width: 50%; /*слайдер на половину контейнера*/
+}
+
+.slick-btn { /*класс задан в файле JS в слайдере*/
+    position: absolute; /*position: relative; прописывать не надо, он задан в в файле JS*/
+    top: 50%; /*помещает кнопку по центру относительно слайдера, но делает это по верхнему краю кнопки; чтобы это исправить нужно применить transform: translateY*/
+    transform: translateY(-50%); /*преподнимает кнопку на половину себя*/
+    z-index: 5; /*чтобы кнопки не прятались за слайдером*/
+    cursor: pointer; /*курсор меняется при наведении на кнопку*/
+    background-color: transparent; /*делает фон кнопки прозрачным, оставляя рисунок кнопки*/
+    border: none; /*убирает рамку кнопки*/
+    outline: none; /*убирает обводку кнопки после нажатия*/
+}
+
+.slick-prev {
+    left: 0;
+}
+
+.slick-next {
+    right: 0; /*перенесли кнопку вправо*/
+}
+
+.fairy-tail__inner {
+    position: relative; /*родительская метка(свойство для родителя, внутри которого позиционируется элемент)*/
+}
+
+.fairy-tail__container,
+.our-trip__container {
+    max-width: 1230px;
+    margin: 0 auto;
+    padding: 0 15px;
+    position: absolute; /*центрируемся относительно него*/
+    top: 0; /*растягиваем*/
+    left: 0; /*контейнер*/
+    right: 0; /*внутри*/
+    bottom: 0; /*inner*/
+}
+
+.fairy-tail__body { /*нужно поставить текст справа от слайдера*/
+    width: 50%; /*теперь текст занимает половину контейнера*/
+    margin-left: auto; /*отправляем его вправо*/
+    padding-left: 55px; /*делаем отступ от слайдера*/
+    display: flex; /*раскидывает элементы на определенное расттояние, но они иду друг за другом в одну строку*/
+    flex-direction: column; /*возвращаем элементы в одну колонку*/
+    justify-content: space-around; /*задаем расстояние между элементами, но высота контейнера маленькая и элементы не разлетаются. нужно задать высоту 100%*/
+    height: 100%;/*задаем высоту 100% от родителя, у body родитель container, а у контейнера стоит top: 0; и bottom: 0; т.е. он автоматически растягивается по высоте слайдера*/
+}
+
+.fairy-tail__body-title {
+    font-family: "RobotoCondensed-Regular"; 
+}
+
+.fairy-tail_text {
+    padding: 10px 0; /*сейчас это ни на что не влияет, но если в параграфы запихнут очень много текст, то он все равно не слипнется*/
+}
+
+.fairy-tail__title span {
+    margin-left: 180px;
+}
+
+.our-trip__slider {
+    width: 50%;
+    margin-left: auto;
+}
+
+.our-trip__inner {
+    position: relative;
+}
+
+.our-trip__title span {
+    margin-left: 245px;
+}
+
+.our-trip__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.our-trip__list {
+    margin: 5px 0;
+}
+
+.our-trip__body {
+    font-size: 24px;
+    line-height: 28px;
+    height: 100%;
+    align-items: start; /*без этого рамка ссылки ЗАБРОНИРОВАТЬ растягивается на всю шерину контейнера*/
+}
+
+.our-trip__list-title {
+    font-family: "RobotoCondensed-Regular";
+    margin-top: 80px;
+}
+
+.our-trip__btn {
+    font-family: "RobotoCondensed-Light";
+    font-size: 24px;
+    line-height: 28px;
+    border: 1px solid #E2AB3F;
+    padding: 11px 54px;
+}
+
+.our-trip__content {
+    width: 50%; /*чтоб текст не разъезжался, если его будет очень много*/
+    padding-right: 55px; /*чтоб текст не прилипал к слайдеру*/
+}
+
+.hotel__title span {
+    margin-left: 125px;
+}
+
+.hotel__inner {
+    display: flex;
+}
+
+.hotel-image {
+    margin-right: 100px;
+}
+
+.hetel__text {
+    margin-bottom: 20px;
+
+}
+
+.hotel__gallery {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap; /*чтобы элементы переносились на следующую строку, когда не помещаются; в нашем случае у нас получается два ряда по две картинки*/
+    justify-content: space-between;
+}
+
+.hotel__gallery a {
+    margin-top: 50px;    
+}
+
+.hotel__content {
+    height: 100%;
+}
+
+.price__inner {
+    display: flex;
+}
+
+.price__on-title, 
+.price__off-title {
+    font-family: "RobotoCondensed-Regular";
+    font-size: 24px;
+    line-height: 28px;
+    margin-bottom: 50px;
+}
+
+.price__on {
+    margin-right: 70px;
+    width: 530px;
+}
+
+.price__list-item{
+    margin-bottom: 20px;
+}
+
+.price__title span {
+    margin-left: 120px;
+}
+
+.price {
+    background-image: url(../images/price-bg.png);
+    background-repeat: no-repeat;
+    background-position: top 90% right 15%;
+}
+
+.contacts__inner {
+    display: flex;
+    justify-content: space-between;
+}
+
+.contacts__content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.contacts__date span,
+.contacts__price span {
+    margin-left: 205px;
+    margin-bottom: 5px;
+}
+
+.contacts__price {
+    margin-left: 110px;
+}
+
+.contacts__form {
+    max-width: 383px;
+    margin: 0 auto;
+}
+
+.contacts__form-title {
+    font-family: "RobotoCondensed-Regular"; 
+    font-size: 24px;
+    line-height: 28px;  
+    margin-bottom: 50px;
+}
+
+.contacts__form-input {
+    border: 1px solid #E2AB3F;
+    display: block;
+    margin-bottom: 20px;
+    height: 50px;
+    width: 100%;
+    padding: 0 31px; /*записывать имено так, чтобы текст внутри инпута не прилипал к краям рамки*/
+    font-size: 18px;
+    line-height: 21px;
+    font-family: "RobotoCondensed-Light"; 
+}
+
+.contacts__form-input::placeholder { /*делает шрифт черным внутри инпута*/
+    color: #000;
+}
+
+.contacts__form-btn {
+    font-family: "RobotoCondensed-Light";  
+    font-size: 24px;
+    line-height: 28px;
+    text-transform: uppercase;
+    border: 1px solid #E2AB3F;
+    background-color: transparent; /*делает серый фон кнопки прозрачным, т.е. белым*/
+    padding: 11px 45px;
+    cursor: pointer; /*меняет курсор при наведении*/
+}
+
+.footer {
+    background-image: url(../images/footer-bg.jpg);
+    height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom center; /*bottom center потому что в приоритете при зжатии экрана будет оставаться центр низа, потому что там изображена девушка и мы ее не обрезаем*/
+    padding-top: 96px; /*это отступ до белого воздушного шара, в котором прописаны контакты*/
+}
+
+.footer__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /*Центрируем надпись footer__text остносительно шарика*/
+    margin-top: 20px;
+}
+
+.footer__text {
+    font-family: "balqis";
+    font-size: 86px;
+    line-height: 115px;
+}
+
+.footer__contacts {
+    background-image: url(../images/footer-contacts-bg.png);
+    width: 356px;
+    height: 527px;
+    background-repeat: no-repeat;
+    text-align: center;
+    background-size: cover;
+}
+
+.footer__contacts-title {
+    font-family: "balqis";
+    font-size: 86px;
+    line-height: 115px;
+    color: #E2AB3F;
+    margin-bottom: 50px;
+    padding-top: 50px;
+}
+
+.footer__phone,
+.footer__email {
+    display: inline-block; /*ссылки, это строчные элементы, и нужные нам scc-свойства с ними работать не будут; мы задали им блочный тип и свойства заработали*/
+    position: relative;
+    padding-left: 40px;
+}
+
+.footer__phone::before,
+.footer__email::before {
+    position: absolute;
+    content: "";
+    width: 30px;
+    height: 30px;
+    left: 0;
+    top: -5px; /*выровняли иконки относительно ссылок*/
+}
+
+.footer__phone::before {
+    background-image: url(../images/footer-phone-icon.svg);
+}
+
+.footer__email::before {
+    background-image: url(../images/footer-email-icon.svg);
+}
+
+.footer__phone {
+    margin-bottom: 20px;
+}
+
+.footer__social {
+    margin-top: 38px;
+}
+
+.footer__social a {
+    margin: 0 7px;
+}
+
+/*!!!!!!!!!!!!!!!!ADAPTIVE!!!!!!!!!!!!!!!!!*/
+
+@media (max-width: 1240px) { /*стили применяются пока экран больше 1240px*/
+    .header__title {
+    padding-top: 120px;
+    font-size: 180px;
+    line-height: 220px;
+    }
+    .header__title span {
+        font-size: 50px;
+        margin-top: -50px;
+    }
+}
+
+@media (max-width: 991px) {
+    .page-section {
+        margin: 100px 0;
+    }
+    .fairy-tail__container,
+    .our-trip__container,
+    .hotel__content {
+        position: static;
+    }
+    .fairy-tail__slider {
+        width: 100%;
+    }
+    .fairy-tail__body {
+        width: 100%;
+        padding-left: 0;
+    }
+
+    .our-trip__slider {
+        width: 100%;
+    }
+    .our-trip__body {
+        width: 100%;
+    }
+    .our-trip__slider-item {
+    height: 100vh;
+    object-fit: cover; 
+    width: 100%;
+    }
+    .our-trip__list-title {
+        margin-top: 10px;
+    }
+    .our-trip__btn {
+        margin-top: 10px;
+    }
+    .hotel-image {
+        height: 670px;
+    }
+    .hotel__inner {
+        
+    }
+    
+}
+
+@media (max-width: 840px) { 
+    .header__title {
+    padding-top: 100px;
+    font-size: 120px;
+    line-height: 150px;
+    }
+    .header__title span {
+        font-size: 30px;
+        margin-top: -44px;
+    }
+    .header__top {
+        font-size: 20px;
+        line-height: 24px;
+    }
+    .header__phone::before {
+        width: 25px;
+        height: 25px;
+        background-size: cover;
+    }
+}
+
+@media (max-width: 600px) { 
+    .header__top {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .menu {
+        width: 100%;
+        text-align: center;
+        margin: 0 0 25px;
+    }
+    .header__title {
+        font-size: 80px;
+        line-height: 120px;
+    }
+    .header__title span {
+        font-size: 22px;
+        margin-top: -46px;
+        margin-right: 15px;
+    }
+    .fairy-tail__item img {
+        height: 50vh;
+        object-fit: cover; /* изображение не сплющивается, а как бы уезжает внутри экрана слайдера; чтоб понять, потести */
+        width: 100%;
+    }
+    .page-section {
+        margin: 50px 0;
+    }
+    .title {
+        font-size: 60px;
+        line-height: 110px;
+    }
+    .fairy-tail__title span {
+        margin-bottom: 25px;
+        margin-left: 110px;
+    }
+
+    .our-trip__slider-item img {
+        height: 100vh;
+        object-fit: cover; 
+        width: 100%;
+    }
+    .our-trip__slider-item{
+        height: 50vh;
+    }
+    .our-trip__title span {
+        margin-bottom: 25px;
+        margin-left: 150px;
+    }
+}
+
+@media (max-width: 376px) { 
+    .header__title {
+        font-size: 60px;
+        line-height: 100px;
+    }
+    .header__title span {
+        font-size: 18px;
+        margin-right: 0px;
+    }
+    .header {
+        height: 90vh; 
+    }
+    .menu__list-item + .menu__list-item {
+        margin-left: 18px;
+    }
+    .title {
+        font-size: 50px;
+    }
+    .title span {
+        font-size: 20px;
+    }
+    .fairy-tail__title span {
+        margin-left: 90px;
+    }
+
+    .our-trip__title span {
+        margin-left: 90px;
+    }
+    .our-trip__body { 
+        font-size: 18px;
+        width: 100%;
+        line-height: 20px;
+    }
+    .our-trip__content {
+        width: 100%;
+        padding-right: 20px;
+    }
+    .our-trip__lis li{
+        padding-bottom: 5px;
+    }
+
+    .hotel-image {
+        margin-left: -18px;
+        height: 50vh;
+    }
+}
